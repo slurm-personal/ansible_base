@@ -1,0 +1,16 @@
+#################
+# LEMP PLAYBOOK #
+#################
+---
+- hosts: "all" # применяем команды ко всем хостам из inventory
+  become: true # становимся привилегированным пользователем
+  roles: 
+  - nginx
+  - mysql
+  - php
+  
+  tasks:
+  - name: "Reload nginx"
+    ansible.builtin.service:
+      name: "nginx"
+      state: "reloaded"

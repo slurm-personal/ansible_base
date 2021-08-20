@@ -1,0 +1,99 @@
+#################
+# LEMP PLAYBOOK #
+#################
+---
+- hosts: "all" # применяем команды ко всем хостам из inventory
+  become: true # становимся привилегированным пользователем
+  tasks: # список тасков
+  # NGINX
+  - name: "Install nginx via apt" # имя, обязательно для любой таски из плейбука, должно содержать описание того что эта таска делает
+    ansible.builtin.apt: # имя модуля, этот модуль устанавливает софт на хосте с помощью пакета apt
+      name: "nginx" # имя пакета для установки
+      state: "latest" # установить последнюю версию пакета, в отличие от present, если пакет уже установлен в системе, попробует его обновить
+      update_cache: true # вызвать apt update перед установкой, чтобы убедиться в наличии самой свежей базы данных о пакетах
+
+  - name: "Delete /var/www/html folder"
+    ansible.builtin.file: # этот модуль работает с файлами и папками на удаленной машине
+      path: "/var/www/html" # путь к файлу/папке на удаленной машине
+      state: "absent" # перевести папку в состояние absent - то есть удалить ее
+
+  - name: "Copy our landing to /var/www/html folder"
+    ansible.builtin.copy: # этот модуль копирует файлы/директории с контрольной ноды на хосты
+      src: "files/html" # путь к файлу/директории для копирования на контрольной ноде
+      dest: "/var/www/" # путь для вставки на удаленной машине, вставка папок ВСЕГДА будет осуществляться внутрь папки, ансибл никогда не будет подменять папки или переименовывать их
+      owner: "vagrant" # пользователь владелец файла/директории на удаленной машине
+      group: "vagrant" # группа владелец файла/директории на удаленной машине
+      mode: "0644" # права доступа к файлу/директории
+
+  # MYSQL
+  - name: "Install mysql via apt"
+    ansible.builtin.apt:
+      name: "mysql-server"
+      state: "latest"
+      update_cache: true
+
+  - name: "Install pymysql via apt"
+    ansible.builtin.apt:
+      name: "python3-pymysql" # необходим для работы модулей mysql
+      state: "latest"
+      update_cache: true
+
+  - name: "Set up root user"
+    community.mysql.mysql_user: # модуль для управления пользователями 
+      name: "root" # имя пользователя для редактирования, обратите внимание на единообразие параметров модулей
+      password: "password" # пароль пользователя для редактирования
+      login_user: "root" # имя пользователя, под которым вносим изменения
+      login_password: "password" # пароль пользователя под которым редактируем
+      check_implicit_admin: true # сначала попробует зайти без пароля
+      login_unix_socket: "/var/run/mysqld/mysqld.sock" # если mysql работает через сокет, вместо коннекта через порт, то нужен этот путь
+
+  - name: "Remove anonymous users"
+    community.mysql.mysql_user:
+      name: "" # анонимные пользователи не имеют имени
+      state: "absent" # как и с модулем file - удалить
+      login_user: "root"
+      login_password: "password"
+
+  - name: "Remove test database"
+    community.mysql.mysql_db: # модуль для управления базами данных
+      name: "test" # тут это имя базы
+      state: "absent" # как и с модулем file - удалить
+      login_user: "root"
+      login_password: "password"
+
+  # PHP
+  - name: "Installing php fpm and php mysql"
+    ansible.builtin.apt:
+      name: "{{ item }}" # здесь мы будем перечислять пакеты для установки, поэтому вместо имени здесь плейсхолдер
+      state: "latest"
+      update_cache: true
+    with_items: # а вот тут уже и перечисляем, ansible сам их подcтавит вместо {{ name }}
+      - "php-fpm"
+      - "php-mysql"
+
+  - name: "Copy php files to /var/www"
+    ansible.builtin.copy:
+      src: "files/test-php/php_test"
+      dest: "/var/www/"
+      owner: "vagrant"
+      group: "vagrant"
+      mode: "0644"
+
+  - name: "Copy nginx config for php testing"
+    ansible.builtin.copy:
+      src: "files/test-php/nginx.conf"
+      dest: "/etc/nginx/sites-available/php_test.conf"
+      owner: "vagrant"
+      group: "vagrant"
+      mode: "0644"
+
+  - name: "Link folder"
+    ansible.builtin.file:
+      src: "/etc/nginx/sites-available/php_test.conf"
+      dest: "/etc/nginx/sites-enabled/php_test"
+      state: "link" # здесь создаем симлинк
+
+  - name: "Reload nginx"
+    ansible.builtin.service:
+      name: "nginx"
+      state: "reloaded"
