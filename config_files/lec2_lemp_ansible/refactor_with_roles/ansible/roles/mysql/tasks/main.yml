@@ -1,0 +1,35 @@
+ # MYSQL
+  - name: "Install mysql via apt"
+    ansible.builtin.apt:
+      name: "mysql-server"
+      state: "latest"
+      update_cache: true
+
+  - name: "Install pymysql via apt"
+    ansible.builtin.apt:
+      name: "python3-pymysql" # необходим для работы модулей mysql
+      state: "latest"
+      update_cache: true
+
+  - name: "Set up root user"
+    community.mysql.mysql_user: # модуль для управления пользователями 
+      name: "root" # имя пользователя для редактирования, обратите внимание на единообразие параметров модулей
+      password: "password" # пароль пользователя для редактирования
+      login_user: "root" # имя пользователя, под которым вносим изменения
+      login_password: "password" # пароль пользователя под которым редактируем
+      check_implicit_admin: true # сначала попробует зайти без пароля
+      login_unix_socket: "/var/run/mysqld/mysqld.sock" # если mysql работает через сокет, вместо коннекта через порт, то нужен этот путь
+
+  - name: "Remove anonymous users"
+    community.mysql.mysql_user:
+      name: "" # анонимные пользователи не имеют имени
+      state: "absent" # как и с модулем file - удалить
+      login_user: "root"
+      login_password: "password"
+
+  - name: "Remove test database"
+    community.mysql.mysql_db: # модуль для управления базами данных
+      name: "test" # тут это имя базы
+      state: "absent" # как и с модулем file - удалить
+      login_user: "root"
+      login_password: "password"
