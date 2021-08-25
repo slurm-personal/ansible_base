@@ -1,0 +1,440 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap&subset=cyrillic');
+
+.amo-button {
+  display: block;
+  background-size: cover;
+  position: relative;
+  z-index: 5;
+  cursor: pointer;
+  border-radius: 50%;
+  user-select: none;
+  -moz-user-select: none;
+}
+
+.amo-button--main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.amo-button--main.maincollapsed {
+  box-shadow: 1px 1px 15px 0 rgba(0, 0, 0, 0.15);
+}
+.amo-button--main.maincollapsed:before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  bottom: -1px;
+  left: -1px;
+  border: 2px solid;
+  border-color: inherit;
+  border-radius: inherit;
+}
+
+.amo-button--main-icon {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 6;
+  background-size: 80%;
+  background-image: url("../../img/v2/button.svg");
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+.amo-button--main-icon.amo-button--no-fill {
+  background-image: none;
+}
+.amo-button--only-livechat .amo-button--main-icon {
+  background-image: url("../../img/v3/livechat.svg");
+  background-size: 50%;
+}
+.amo-button--only-social {
+  pointer-events: none;
+}
+.amo-button--only-social .amo-button--main-icon {
+  background-size: 80%;
+}
+.amo-button--only-social[data-social="telegram"] {
+  background-color: #2ca8dd !important;
+}
+.amo-button--only-social[data-social="telegram"] .amo-button--main-icon {
+  background-image: url("../../img/v3/telegram.svg");
+}
+.amo-button--only-social[data-social="facebook"],
+.amo-button--only-social[data-social="messenger"] {
+  background-color: #0281ff !important;
+}
+.amo-button--only-social[data-social="facebook"] .amo-button--main-icon,
+.amo-button--only-social[data-social="messenger"] .amo-button--main-icon {
+  background-image: url("../../img/v3/messenger.svg");
+}
+.amo-button--only-social[data-social="viber"] {
+  background-color: #665cac !important;
+}
+.amo-button--only-social[data-social="viber"] .amo-button--main-icon {
+  background-image: url("../../img/v3/viber.svg");
+}
+.amo-button--only-social[data-social="vk"] {
+  background-color: #4a76a8 !important;
+}
+.amo-button--only-social[data-social="vk"] .amo-button--main-icon {
+  background-image: url("../../img/v3/vk.svg");
+}
+.amo-button--only-social[data-social="wechat"] {
+  background-color: #4fc134 !important;
+}
+.amo-button--only-social[data-social="wechat"] .amo-button--main-icon {
+  background-image: url("../../img/v3/wechat.svg");
+}
+.amo-button--only-social[data-social="skype"] {
+  background-color: #00aff0 !important;
+}
+.amo-button--only-social[data-social="skype"] .amo-button--main-icon {
+  background-image: url("../../img/v3/skype.svg");
+}
+.amo-button--only-social[data-social="instagram"],
+.amo-button--only-social[data-social="instagram_business"] {
+  background-color: #e1286f !important;
+}
+.amo-button--only-social[data-social="instagram"] .amo-button--main-icon,
+.amo-button--only-social[data-social="instagram_business"] .amo-button--main-icon {
+  background-image: url("../../img/v3/instagram.svg");
+}
+.amo-button--only-social[data-social="whatsapp"] {
+  background-color: #57d163 !important;
+}
+.amo-button--only-social[data-social="whatsapp"] .amo-button--main-icon {
+  background-image: url("../../img/v3/whatsapp.svg");
+}
+
+.amo-button--main.maincollapsed .amo-button--main-icon {
+  background-image: none;
+}
+
+.amo-button--close-icon {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 32% !important;
+  height: 32% !important;
+}
+.amo-button--main.maincollapsed .amo-button--close-icon {
+  display: block;
+}
+
+.amo-button__iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: none;
+}
+.amo-button__iframe:hover ~ .amo-button ~ .amo-brand {
+  display: none;
+}
+
+.amo-vertical .amo-button__iframe {
+  max-width: unset;
+}
+
+.amo-horisontal .amo-button__iframe {
+  max-width: unset;
+}
+
+.amo-button-holder {
+  padding: 7px;
+  z-index: 9999;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.amo-button-holder * {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@media print{
+  .amo-button-holder {
+    display: none;
+  }
+}
+
+.amo-button-holder.amo-vertical {
+}
+
+.amo-brand {
+  position: absolute;
+  height: 17px !important;
+  bottom: 0;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: all 0.3s ease-out 0s;
+  transition: all 0.3s ease-out 0s;
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.amo-brand_to-right {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+.amo-brand_to-left {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.amo-brand.collapsed {
+  opacity: 1;
+  visibility: visible;
+}
+
+.amo-brand__link-holder {
+  display: inline-block;
+  white-space: nowrap !important;
+  font-family: 'Roboto', Arial, sans-serif !important;
+  font-size: 10px !important;
+  line-height: 1.7 !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  padding: 0 10px;
+  height: 17px !important;
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  -webkit-border-radius: 9px !important;
+  -moz-border-radius: 9px !important;
+  border-radius: 9px !important;
+}
+
+.amo-brand__link {
+  line-height: 1.7 !important;
+  color: #FFFFFF !important;
+  text-decoration: none !important;
+}
+.amo-brand__link:hover,
+.amo-brand__link:active,
+.amo-brand__link:visited {
+  color: #FFFFFF !important;
+  text-decoration: none !important;
+}
+
+/* Animations */
+.amo_animation_tremble {
+  animation: amo_dragging 2s 0.2s both infinite;
+}
+
+.amo_animation_tremble svg {
+  animation: amo_dragging-icon 2s 0.2s both infinite;
+}
+
+.amo_animation_waves::before, .amo_animation_waves::after {
+  content: "";
+  background-color: inherit;
+  display: block;
+  position: absolute;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: inherit;
+  z-index: 0;
+  animation: amo-button-wave infinite 2.6s 0s linear;
+  left: 0;
+}
+
+.amo_animation_waves::before {
+  animation-delay: 0s;
+}
+
+.amo_animation_waves::after {
+  animation-delay: 1.3s;
+}
+
+.amo_animation_shake {
+  animation: amo_shake 5s 0s both infinite;
+}
+
+.amo-button-greeting-badge {
+  display: none;
+  position: absolute;
+  right: -6px;
+  top: -6px;
+  z-index: 9;
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50%;
+  background: #EB5757;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: white !important;
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 14px !important;
+  line-height: 16px !important;
+}
+
+/* Livechat */
+.amo-livechat {
+  z-index: 2147483000;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  min-height: 100% !important;
+  overflow: hidden;
+}
+.amo-livechat_top-right {
+  transform-origin: top right;
+}
+.amo-livechat_bottom-right {
+  transform-origin: bottom right;
+}
+.amo-livechat_top-left {
+  transform-origin: top left;
+}
+.amo-livechat_bottom-left {
+  transform-origin: bottom left;
+}
+
+.amo-livechat_chat {
+  background: #fff;
+  box-shadow: 0px 5px 40px rgba(0, 0, 0, 0.15);
+  border-radius: 13px;
+  width: 360px;
+  height: calc(100vh - 120px);
+  min-height: 250px;
+  max-height: 704px;
+}
+
+@media (min-width: 450px) {
+  .amo-livechat_chat.amo-livechat_top-right,
+  .amo-livechat_chat.amo-livechat_bottom-right {
+    right: 0;
+  }
+  .amo-livechat_chat.amo-livechat_top-left,
+  .amo-livechat_chat.amo-livechat_bottom-left {
+    left: 0;
+  }
+  .amo-livechat_chat.amo-livechat_top-right,
+  .amo-livechat_chat.amo-livechat_top-left {
+    top: 100%;
+    margin-top: 20px;
+  }
+  .amo-livechat_chat.amo-livechat_bottom-left,
+  .amo-livechat_chat.amo-livechat_bottom-right {
+    bottom: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.amo-livechat_bubble {
+  /* Максимальные размеры бабла, которые нужны на случай, если не отработает автосайз */
+  height: 198px;
+  width: 219px;
+}
+.amo-livechat_bubble.amo-livechat_bottom-right {
+  right: -10px;
+  bottom: 100%;
+  margin-bottom: 5px;
+}
+.amo-livechat_bubble.amo-livechat_bottom-left {
+  left: -10px;
+  bottom: 100%;
+  margin-bottom: 5px;
+}
+.amo-livechat_bubble.amo-livechat_top-left {
+  left: -10px;
+  top: 100%;
+  margin-top: 10px;
+}
+.amo-livechat_bubble.amo-livechat_top-right {
+  right: -10px;
+  top: 100%;
+  margin-top: 10px;
+}
+.amo-livechat_bubble.amo-livechat_vertical.amo-livechat_top-right {
+  right: 100%;
+  top: -15px;
+  margin-top: 0;
+  margin-right: 10px;
+}
+.amo-livechat_bubble.amo-livechat_vertical.amo-livechat_bottom-right {
+  right: 100%;
+  bottom: -15px;
+  margin-bottom: 0;
+  margin-right: 10px;
+}
+.amo-livechat_bubble.amo-livechat_vertical.amo-livechat_top-left {
+  left: 100%;
+  top: -15px;
+  margin-top: 0;
+  margin-left: 10px;
+}
+.amo-livechat_bubble.amo-livechat_vertical.amo-livechat_bottom-left {
+  left: 100%;
+  bottom: -15px;
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+
+.amo-livechat_hidden {
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+.amo-livechat_opening {
+  animation: amo_livechat_opening .2s ease;
+}
+.amo-livechat_hiding {
+  animation: amo_livechat_hiding .2s ease;
+}
+
+.amo-livechat_frame {
+  position: relative;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.amo-livechat > iframe {
+  position: absolute;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: none;
+  overflow: hidden;
+  background: none;
+  left: 0;
+}

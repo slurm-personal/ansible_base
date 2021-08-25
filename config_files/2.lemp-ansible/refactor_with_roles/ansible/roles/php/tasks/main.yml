@@ -1,0 +1,31 @@
+ # PHP
+  - name: "Installing php fpm and php mysql"
+    ansible.builtin.apt:
+      name: "{{ item }}" # здесь мы будем перечислять пакеты для установки, поэтому вместо имени здесь плейсхолдер
+      state: "latest"
+      update_cache: true
+    with_items: # а вот тут уже и перечисляем, ansible сам их подcтавит вместо {{ name }}
+      - "php-fpm"
+      - "php-mysql"
+
+  - name: "Copy php files to /var/www"
+    ansible.builtin.copy:
+      src: "files/test-php/php_test"
+      dest: "/var/www/"
+      owner: "vagrant"
+      group: "vagrant"
+      mode: "0644"
+
+  - name: "Copy nginx config for php testing"
+    ansible.builtin.copy:
+      src: "files/test-php/nginx.conf"
+      dest: "/etc/nginx/sites-available/php_test.conf"
+      owner: "vagrant"
+      group: "vagrant"
+      mode: "0644"
+
+  - name: "Link folder"
+    ansible.builtin.file:
+      src: "/etc/nginx/sites-available/php_test.conf"
+      dest: "/etc/nginx/sites-enabled/php_test"
+      state: "link" # здесь создаем симлинк
